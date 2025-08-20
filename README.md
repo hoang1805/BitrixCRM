@@ -251,11 +251,11 @@ npm start
   "message": "Update successfully !!!"
 }
 ```
-- Response Errors: Example: 404 Not Found
+- Response Errors: Example: 400 Bad Request
 ```
 {
-  "statusCode": 404,
-  "message": "Not found contact",
+  "statusCode": 400,
+  "message": "Không tìm thấy mục",
   "timestamp": "2025-08-20T08:35:12.000Z",
 }
 ```
@@ -266,11 +266,13 @@ npm start
   "message": "Delete successfully !!!"
 }
 ```
-- Response Errors: Example: 404 Not Found
+- Response Errors: Example: 400 Bad Request
 ```
 {
-  "statusCode": 404,
-  "message": "Not found contact",
+  "statusCode": 400,
+  "message": "Không tìm thấy mục",
   "timestamp": "2025-08-20T08:35:12.000Z",
 }
 ```
+## 6. Test API
+- Đây là kết quả khi test trên [Postman](https://documenter.getpostman.com/view/32176988/2sB3BKG8Xt)

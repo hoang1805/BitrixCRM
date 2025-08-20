@@ -170,7 +170,7 @@ npm start
       "country?": "string",
     }
   ],
-  "bank": [
+  "bank?": [
     {
       "name": "string",
       "accountNumber": "string",
@@ -217,7 +217,7 @@ npm start
   ],
   "website?": [
     {
-      "id?": "string" (optional),
+      "id?": "string",
       "type?": "WORK | HOME | FACEBOOK | VK | LIVEJOURNAL | TWITTER | OTHER",
       "value?": "string",
       "deleted?": "boolean",

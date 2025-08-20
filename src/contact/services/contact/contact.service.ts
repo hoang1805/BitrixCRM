@@ -17,6 +17,7 @@ import { BankInterface } from 'src/contact/interfaces/bank.interface';
 import { ContactRequestDto } from 'src/contact/dtos/contact/contact.request.dto';
 import { CustomError } from 'src/common/errors/custom.error';
 import { MultifieldRequest } from 'src/contact/interfaces/multifield.request.interface';
+import { ContactUpdateDto } from 'src/contact/dtos/contact/contact.update.dto';
 
 @Injectable()
 export class ContactService {
@@ -201,7 +202,7 @@ export class ContactService {
     return contactId as number;
   }
 
-  async updateContact(id: string, contactDto: ContactRequestDto) {
+  async updateContact(id: string, contactDto: ContactUpdateDto) {
     const selector = (item: MultifieldRequest, objectName: string) => {
       if (item.deleted) {
         if (!item.id) {

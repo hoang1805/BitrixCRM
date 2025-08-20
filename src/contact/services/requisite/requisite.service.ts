@@ -9,6 +9,7 @@ import {
 } from 'src/common/services/bitrix.service';
 import { ArrayUtil } from 'src/common/utils/array.util';
 import { ContactRequestDto } from 'src/contact/dtos/contact/contact.request.dto';
+import { ContactUpdateDto } from 'src/contact/dtos/contact/contact.update.dto';
 import { RequisiteDto } from 'src/contact/dtos/requisite/requisite.dto';
 import { RequisiteListResponseDto } from 'src/contact/dtos/requisite/requisite.list.response.dto';
 
@@ -40,7 +41,7 @@ export class RequisiteService {
 
   async createByContact(
     contactId: string,
-    contactDto: ContactRequestDto,
+    contactDto: ContactUpdateDto,
   ): Promise<number> {
     const response: any = await this.bitrixService.callMethod(
       'crm.requisite.add',

@@ -20,7 +20,19 @@ export class ExceptionsFilter implements ExceptionFilter {
     const response = context.getResponse<Response>();
 
     let status: any = null;
-    const message: any = exception instanceof Error ? exception.message : null;
+    let message = '';
+    if (exception instanceof CustomError) {
+      message = exception.message;
+    } else if (exception instanceof HttpException) {
+      const exceptionResponse: string | object = exception.getResponse();
+      message =
+        typeof exceptionResponse == 'string'
+          ? exceptionResponse
+          : (exceptionResponse as Record<string, any>).message ||
+            'An unexpected error occurred.';
+    } else if (exception instanceof Error) {
+      message = exception.message;
+    }
 
     if (exception instanceof CustomError) {
       status = exception.statusCode;
@@ -30,7 +42,9 @@ export class ExceptionsFilter implements ExceptionFilter {
 
     response.status(status ?? HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: status ?? HttpStatus.INTERNAL_SERVER_ERROR,
-      message: message ?? 'An unexpected error occurred.',
+      message: Array.isArray(message)
+        ? message[0]
+        : (message ?? 'An unexpected error occurred.'),
       timestamp: new Date().toISOString(),
     });
   }

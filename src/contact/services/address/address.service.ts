@@ -12,6 +12,7 @@ import {
   AddressRequestDto,
   ContactRequestDto,
 } from 'src/contact/dtos/contact/contact.request.dto';
+import { ContactUpdateDto } from 'src/contact/dtos/contact/contact.update.dto';
 import { AddressInterface } from 'src/contact/interfaces/address.interface';
 
 @Injectable()
@@ -55,10 +56,7 @@ export class AddressService {
     }
   }
 
-  async massUpdate(
-    requisiteId: number | string,
-    contactDto: ContactRequestDto,
-  ) {
+  async massUpdate(requisiteId: number | string, contactDto: ContactUpdateDto) {
     const addresses = contactDto.address || [];
 
     for (let i = 0; i < addresses.length; i++) {

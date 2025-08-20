@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -15,6 +16,7 @@ import { ArrayUtil } from 'src/common/utils/array.util';
 import { BankService } from './services/bank/bank.service';
 import express from 'express';
 import { ContactRequestDto } from './dtos/contact/contact.request.dto';
+import { ContactUpdateDto } from './dtos/contact/contact.update.dto';
 
 @Controller('contacts')
 export class ContactController {
@@ -44,11 +46,14 @@ export class ContactController {
       banks,
     );
 
-    return res.status(200).json(contactDetails);
+    return res.status(HttpStatus.OK).json(contactDetails);
   }
 
   @Post()
-  async createContact(@Body() contactDto: ContactRequestDto) {
+  async createContact(
+    @Body() contactDto: ContactRequestDto,
+    @Res() res: express.Response,
+  ) {
     // Logic to handle creating a contact
     const contactId = await this.contactService.createContact(contactDto);
     const requisiteId = await this.requisiteService.createByContact(
@@ -63,13 +68,14 @@ export class ContactController {
       contactDto,
     );
 
-    return { contactId, requisiteId, bankIds };
+    return res.status(HttpStatus.OK).json({ contactId });
   }
 
   @Put(':id')
   async updateContact(
     @Param('id') id: number,
-    @Body() contactDto: ContactRequestDto,
+    @Body() contactDto: ContactUpdateDto,
+    @Res() res: express.Response,
   ) {
     // Logic to handle updating a contact
     await this.contactService.updateContact(id.toString(), contactDto);
@@ -89,10 +95,13 @@ export class ContactController {
 
     await this.bankService.massUpdate(requisiteId, contactDto);
     await this.addressService.massUpdate(requisiteId, contactDto);
+    return res
+      .status(HttpStatus.OK)
+      .json({ message: 'Update successfully !!!' });
   }
 
   @Delete(':id')
-  async deleteContact(@Param('id') id: number) {
+  async deleteContact(@Param('id') id: number, @Res() res: express.Response) {
     await this.contactService.deleteById(id);
     const requisites = await this.requisiteService.getByContacts([
       id.toString(),
@@ -101,5 +110,9 @@ export class ContactController {
     for (let i = 0; i < requisites.length; i++) {
       await this.requisiteService.deleteById(requisites[i].id);
     }
+
+    return res
+      .status(HttpStatus.OK)
+      .json({ message: 'Delete successfully !!!' });
   }
 }

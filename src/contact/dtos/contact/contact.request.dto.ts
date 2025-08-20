@@ -17,11 +17,6 @@ import { UniqueByField } from 'src/common/validators/unique.by.field.validator';
 import { MultifieldRequest } from 'src/contact/interfaces/multifield.request.interface';
 
 export class ContactRequestDto {
-  @IsOptional()
-  @Type(() => String)
-  @IsNumberString()
-  id?: string;
-
   @IsString()
   firstName: string;
 
@@ -84,7 +79,7 @@ class PhoneRequestDto implements MultifieldRequest {
     return value === 'true' || value === true;
   })
   @IsBoolean()
-  deleted: boolean;
+  deleted: boolean = false;
 }
 
 class EmailRequestDto implements MultifieldRequest {
@@ -108,7 +103,7 @@ class EmailRequestDto implements MultifieldRequest {
     return value === 'true' || value === true;
   })
   @IsBoolean()
-  deleted: boolean;
+  deleted: boolean = false;
 }
 
 class WebsiteRequestDto implements MultifieldRequest {
@@ -132,7 +127,7 @@ class WebsiteRequestDto implements MultifieldRequest {
     return value === 'true' || value === true;
   })
   @IsBoolean()
-  deleted: boolean;
+  deleted: boolean = false;
 }
 
 export class AddressRequestDto {
@@ -170,7 +165,7 @@ export class AddressRequestDto {
     return value === 'true' || value === true;
   })
   @IsBoolean()
-  deleted: boolean;
+  deleted: boolean = false;
 }
 
 class BankRequestDto {
@@ -193,5 +188,5 @@ class BankRequestDto {
     return value === 'true' || value === true;
   })
   @IsBoolean()
-  deleted: boolean;
+  deleted: boolean = false;
 }

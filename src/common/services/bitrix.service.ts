@@ -12,14 +12,14 @@ export class BitrixService {
   async callMethod<T>(
     method: string,
     payload: Record<string, any> = {},
-    access_token: string = '',
+    accessToken: string = '',
   ): Promise<T> {
     const domain = this.configService.get<string>('BITRIX24_DOMAIN');
     const url = `https://${domain}/rest/${method}`;
 
     return this.requestService.post<T>(url, {
       ...payload,
-      auth: access_token,
+      auth: accessToken,
     });
   }
 }

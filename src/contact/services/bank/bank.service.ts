@@ -7,6 +7,7 @@ import { BankDto } from 'src/contact/dtos/bank/bank.dto';
 import { BankListResponseDto } from 'src/contact/dtos/bank/bank.list.response.dto';
 import { ContactDto } from 'src/contact/dtos/contact/contact.dto';
 import { ContactRequestDto } from 'src/contact/dtos/contact/contact.request.dto';
+import { ContactUpdateDto } from 'src/contact/dtos/contact/contact.update.dto';
 import { BankInterface } from 'src/contact/interfaces/bank.interface';
 
 @Injectable()
@@ -55,10 +56,7 @@ export class BankService {
     return bankIds;
   }
 
-  async massUpdate(
-    requisiteId: number | string,
-    contactDto: ContactRequestDto,
-  ) {
+  async massUpdate(requisiteId: number | string, contactDto: ContactUpdateDto) {
     const banks = contactDto.bank || [];
 
     for (let i = 0; i < banks.length; i++) {
@@ -121,9 +119,9 @@ export class BankService {
 
   async update(id: number | string, bank: string, accountNumber: string) {
     await this.bitrixService.callMethod(
-      'crm.requisite.bankdetail.add',
+      'crm.requisite.bankdetail.update',
       {
-        id: id,
+        id: typeof id == 'number' ? id : parseInt(id, 10),
         fields: {
           NAME: bank,
           RQ_BANK_NAME: bank,

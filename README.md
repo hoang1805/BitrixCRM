@@ -27,7 +27,6 @@
 - npm hoặc yarn  
 - [Ngrok](https://ngrok.com/) (tạo public URL cho backend)  
 - Tài khoản:
-  - [Jotform](https://www.jotform.com/)  
   - [Bitrix24](https://www.bitrix24.com/)
 ## 2. Cài đặt môi trường
 ### 2.1. Node.js

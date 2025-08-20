@@ -21,78 +21,256 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
+# Hướng dẫn triển khai
+## 1. Yêu cầu môi trường
+- Node.js >= 16  
+- npm hoặc yarn  
+- [Ngrok](https://ngrok.com/) (tạo public URL cho backend)  
+- Tài khoản:
+  - [Jotform](https://www.jotform.com/)  
+  - [Bitrix24](https://www.bitrix24.com/)
+## 2. Cài đặt môi trường
+### 2.1. Node.js
+- Tải về và cài đặt Node.js từ [nodejs.org](https://nodejs.org/en/download) (nên dùng bản LTS).  
+- Kiểm tra cài đặt:
+  ```bash
+  node -v
+  npm -v
+  ```
+### 2.2. Ngrok
+- Tải về và cài đặt Ngrok từ [ngrok.com](https://ngrok.com/downloads).
+- Kiểm tra cài đặt:
 ```bash
-$ npm install
+ngrok version
+```
+- Đăng ký tài khoản Ngrok để lấy Auth Token và chạy lệnh:
+```bash
+ngrok config add-authtoken <your_auth_token>
+```
+## 3. Thiết lập tài khoản
+### 3.1. Lấy client_id và client_secret của Bitrix24
+- Bước 1: Chạy ngrok
+```
+ngrok http 3000
+```
+- Bước 2: Copy url mới được tạo
+- Bước 3: Đăng nhập vào [Bitrix24](https://www.bitrix24.vn/)
+- Bước 4: **Vào Tài nguyên cho nhà phát triển** → **Khác**.
+- Bước 5: Chọn **Ứng dụng cục bộ**
+- Bước 6: Điền url vào đường dẫn ban đầu và <url>/install vào đường dẫn cài đặt, bấm lưu
+- Bước 7: Copy client_id và client_secret
+## 4. Triển khai ứng dụng
+### 4.1. Clone từ github
+```
+# Clone project
+git clone https://github.com/hoang1805/BitrixCRM.git
+cd BitrixCRM
+
+# Cài đặt dependencies
+npm install
+```
+### 4.2. Cấu hình
+- Tạo file .env trong thư mục gốc với nội dung có trong file .env.example
+```
+CLIENT_ID = <client_id>
+CLIENT_SECRET = <client_secret>
+
+BITRIX_OAUTH_DOMAIN = oauth.bitrix.info
+
+BITRIX24_DOMAIN = <your_bitrix_domain>.bitrix24.vn
+```
+### 4.3. Khởi chạy
+```
+# Chạy server backend
+npm start
+```
+## 5. Danh sách API
+### `GET /contacts`: Danh sách các contact
+- `200 OK`
+```json
+[
+  {
+    "id": "123",
+    "name": "Nguyen Van A",
+    "address": [
+      {
+        "typeId": "1",
+        "address1": "123 ABC Street",
+        "province": "Ho Chi Minh",
+        "city": "Ho Chi Minh",
+        "country": "VN"
+      }
+    ],
+    "phone": [
+      {
+        "type": "WORK",
+        "value": "0901234567"
+      }
+    ],
+    "email": [
+      {
+        "type": "WORK",
+        "value": "a@example.com"
+      }
+    ],
+    "website": [
+      {
+        "type": "WORK",
+        "value": "https://example.com"
+      }
+    ],
+    "bank": [
+      {
+        "bankName": "Vietcombank",
+        "accountNumber": "0123456789"
+      }
+    ]
+  }
+]
+```
+- Response Errors: Example: 401 Unauthorized
+```
+{
+  "statusCode": 401,
+  "message": "Invalid or expired token",
+  "timestamp": "2025-08-20T08:35:12.000Z",
+}
+```
+### `POST /contacts`: Tạo contact mới
+- Body:
+```json
+{
+  "firstName": "string",
+  "lastName": "string" (optional),
+  "phone": [
+    {
+      "type": "WORK | MOBILE | FAX | HOME | PAGER | MAILING | OTHER",
+      "value": "string",
+    }
+  ],
+  "email": [
+    {
+      "type": "WORK | HOME | MAILING | OTHER",
+      "value": "string",
+    }
+  ],
+  "website": [
+    {
+      "type": "WORK | HOME | FACEBOOK | VK | LIVEJOURNAL | TWITTER | OTHER",
+      "value": "string",
+    }
+  ],
+  "address": [
+    {
+      "typeId": "number",
+      "address1": "string" (optional),
+      "address2": "string" (optional),
+      "city": "string" (optional),
+      "province": "string" (optional),
+      "country": "string" (optional),
+    }
+  ],
+  "bank": [
+    {
+      "name": "string",
+      "accountNumber": "string",
+    }
+  ]
+}
+```
+- `200 OK`
+```json
+{
+  "contactId": 1
+}
+```
+- Response Errors: Example: 400 Bad Request
+```
+{
+  "statusCode": 400,
+  "message": "Invalid or expired token",
+  "timestamp": "2025-08-20T08:35:12.000Z",
+}
 ```
 
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+### `PUT /contacts/:id`: Sửa contact
+- Body:
+```json
+{
+  "firstName": "string",
+  "lastName": "string" (optional),
+  "phone": [
+    {
+      "id": "string" (optional),
+      "type": "WORK | MOBILE | FAX | HOME | PAGER | MAILING | OTHER" (optional),
+      "value": "string" (optional),
+      "deleted": boolean (optional),
+    }
+  ],
+  "email": [
+    {
+      "id": "string" (optional),
+      "type": "WORK | HOME | MAILING | OTHER",
+      "value": "string",
+      "deleted": boolean (optional),
+    }
+  ],
+  "website": [
+    {
+      "id": "string" (optional),
+      "type": "WORK | HOME | FACEBOOK | VK | LIVEJOURNAL | TWITTER | OTHER",
+      "value": "string",
+      "deleted": boolean (optional),
+    }
+  ],
+  "address": [
+    {
+      "typeId": "number",
+      "entityId": "string" (optional),
+      "address1": "string" (optional),
+      "address2": "string" (optional),
+      "city": "string" (optional),
+      "province": "string" (optional),
+      "country": "string" (optional),
+      "deleted": boolean (optional),
+    }
+  ],
+  "bank": [
+    {
+      "id": "string" (optional),
+      "name": "string",
+      "accountNumber": "string",
+      "deleted": boolean (optional),
+    }
+  ]
+}
 ```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+- `200 OK`
+```json
+{
+  "message": "Update successfully !!!"
+}
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+- Response Errors: Example: 404 Not Found
 ```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+{
+  "statusCode": 404,
+  "message": "Not found contact",
+  "timestamp": "2025-08-20T08:35:12.000Z",
+}
+```
+### `DELETE /contacts/:id`: Xóa contact
+- `200 OK`
+```json
+{
+  "message": "Delete successfully !!!"
+}
+```
+- Response Errors: Example: 404 Not Found
+```
+{
+  "statusCode": 404,
+  "message": "Not found contact",
+  "timestamp": "2025-08-20T08:35:12.000Z",
+}
+```

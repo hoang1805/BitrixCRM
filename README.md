@@ -141,33 +141,33 @@ npm start
 ```json
 {
   "firstName": "string",
-  "lastName": "string" (optional),
-  "phone": [
+  "lastName?": "string",
+  "phone?": [
     {
       "type": "WORK | MOBILE | FAX | HOME | PAGER | MAILING | OTHER",
       "value": "string",
     }
   ],
-  "email": [
+  "email?": [
     {
       "type": "WORK | HOME | MAILING | OTHER",
       "value": "string",
     }
   ],
-  "website": [
+  "website?": [
     {
       "type": "WORK | HOME | FACEBOOK | VK | LIVEJOURNAL | TWITTER | OTHER",
       "value": "string",
     }
   ],
-  "address": [
+  "address?": [
     {
       "typeId": "number",
-      "address1": "string" (optional),
-      "address2": "string" (optional),
-      "city": "string" (optional),
-      "province": "string" (optional),
-      "country": "string" (optional),
+      "address1?": "string",
+      "address2?": "string",
+      "city?": "string",
+      "province?": "string",
+      "country?": "string",
     }
   ],
   "bank": [
@@ -197,50 +197,50 @@ npm start
 - Body:
 ```json
 {
-  "firstName": "string",
-  "lastName": "string" (optional),
-  "phone": [
+  "firstName?": "string",
+  "lastName?": "string",
+  "phone?": [
     {
-      "id": "string" (optional),
-      "type": "WORK | MOBILE | FAX | HOME | PAGER | MAILING | OTHER" (optional),
-      "value": "string" (optional),
-      "deleted": boolean (optional),
+      "id?": "string",
+      "type?": "WORK | MOBILE | FAX | HOME | PAGER | MAILING | OTHER",
+      "value?": "string",
+      "deleted?": "boolean",
     }
   ],
-  "email": [
+  "email?": [
     {
-      "id": "string" (optional),
-      "type": "WORK | HOME | MAILING | OTHER",
-      "value": "string",
-      "deleted": boolean (optional),
+      "id?": "string",
+      "type?": "WORK | HOME | MAILING | OTHER",
+      "value?": "string",
+      "deleted?": "boolean",
     }
   ],
-  "website": [
+  "website?": [
     {
-      "id": "string" (optional),
-      "type": "WORK | HOME | FACEBOOK | VK | LIVEJOURNAL | TWITTER | OTHER",
-      "value": "string",
-      "deleted": boolean (optional),
+      "id?": "string" (optional),
+      "type?": "WORK | HOME | FACEBOOK | VK | LIVEJOURNAL | TWITTER | OTHER",
+      "value?": "string",
+      "deleted?": "boolean",
     }
   ],
-  "address": [
+  "address?": [
     {
       "typeId": "number",
-      "entityId": "string" (optional),
-      "address1": "string" (optional),
-      "address2": "string" (optional),
-      "city": "string" (optional),
-      "province": "string" (optional),
-      "country": "string" (optional),
-      "deleted": boolean (optional),
+      "entityId?": "string",
+      "address1?": "string",
+      "address2?": "string",
+      "city?": "string",
+      "province?": "string",
+      "country?": "string",
+      "deleted?": "boolean",
     }
   ],
-  "bank": [
+  "bank?": [
     {
-      "id": "string" (optional),
-      "name": "string",
-      "accountNumber": "string",
-      "deleted": boolean (optional),
+      "id?": "string",
+      "name?": "string",
+      "accountNumber?": "string",
+      "deleted?": "boolean",
     }
   ]
 }

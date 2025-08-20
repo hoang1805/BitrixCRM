@@ -10,5 +10,6 @@ import { BankService } from './services/bank/bank.service';
   imports: [AuthModule],
   controllers: [ContactController],
   providers: [ContactService, AddressService, RequisiteService, BankService],
+  exports: [ContactService, AddressService, RequisiteService, BankService],
 })
 export class ContactModule {}
